@@ -15,7 +15,7 @@ jobs:
       versionSpec: '3.7'
       architecture: 'x64'
 
-  - script: pip install https://github.com/pyinstaller/pyinstaller.git
+  - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
     displayName: Installing pyinstaller
 
   - script: pip install voila PyQt5 PyQtWebEngine jsonschema==2.6.0
