@@ -15,6 +15,14 @@ jobs:
       versionSpec: '3.7'
       architecture: 'x64'
 
+  - ${{ if eq(parameters.os, 'linux') }}:
+
+    # This is a temporary step while waiting for the following issue to be fixed:
+    # https://github.com/microsoft/azure-pipelines-image-generation/issues/225
+
+    - script: sudo apt-get install -y python3-dev
+      displayName: Intalling python3-dev
+
   - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
     displayName: Installing pyinstaller
 
