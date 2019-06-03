@@ -9,7 +9,9 @@ def patch_osx_app():
     """
     app_path = os.path.join('dist', 'qtonly.app')
 
-    qtwe_core_dir = '/Users/tom/python/dev/lib/python3.7/site-packages/PyQt5/Qt/lib/QtWebEngineCore.framework'
+    import PyQt5
+
+    qtwe_core_dir = PyQt5.__path__[0] + '/Qt/lib/QtWebEngineCore.framework'
 
     # Copy QtWebEngineProcess.app
     proc_app = 'QtWebEngineProcess.app'
