@@ -38,7 +38,7 @@ jobs:
       includeRootFolder: false
       archiveType: 'tar'
       tarCompression: 'gz'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/wheels_${{ parameters.os }}.tar.gz'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/app_${{ parameters.os }}.tar.gz'
 
   - task: PublishPipelineArtifact@0
     inputs:
