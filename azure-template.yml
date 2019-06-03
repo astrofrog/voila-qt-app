@@ -24,7 +24,7 @@ jobs:
     # This is a temporary step while waiting for the following issue to be fixed:
     # https://github.com/microsoft/azure-pipelines-image-generation/issues/225
 
-    - script: sudo apt-get install -y python3 python3-dev
+    - script: apt install -y python3 python3-dev
       displayName: Installing Python
 
   - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
