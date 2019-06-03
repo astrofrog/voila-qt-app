@@ -12,7 +12,7 @@ jobs:
 
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: '3.7'
+      versionSpec: '3.5'
       architecture: 'x64'
 
   - ${{ if eq(parameters.os, 'linux') }}:
@@ -35,8 +35,20 @@ jobs:
   - script: pyinstaller --onedir qtonly.py
     displayName: Building application in onedir mode
 
-  - script: dist/qtonly/qtonly
-    displayName: Testing application
+  - ${{ if eq(parameters.os, 'linux') }}:
+
+    - script: dist/qtonly/qtonly
+      displayName: Testing application
+
+  - ${{ if eq(parameters.os, 'macosx') }}:
+
+    - script: dist/qtonly/qtonly
+      displayName: Testing application
+
+  - ${{ if eq(parameters.os, 'windows') }}:
+
+    - script: .\dist\qtonly\qtonly
+      displayName: Testing application
 
   - task: ArchiveFiles@2
     inputs:
