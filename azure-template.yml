@@ -1,0 +1,38 @@
+jobs:
+- job: ${{ format(parameters.name) }}
+  pool:
+    ${{ if eq(parameters.os, 'macosx') }}:
+      vmImage: macOS 10.13
+    ${{ if eq(parameters.os, 'linux') }}:
+      vmImage: Ubuntu 16.04
+    ${{ if eq(parameters.os, 'windows') }}:
+      vmImage: vs2017-win2016
+
+  steps:
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7'
+      architecture: 'x64'
+
+  - script: pip install https://github.com/pyinstaller/pyinstaller.git
+    displayName: Installing pyinstaller
+
+  - script: pip install voila PyQt5 PyQtWebEngine jsonschema==2.6.0
+    displayName: Installing app dependencies
+
+  - script: pyinstaller --onefile --windowed voila_qt_full.spec
+    displayName: Building application
+
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: dist
+      includeRootFolder: false
+      archiveType: 'tar'
+      tarCompression: 'gz'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/wheels_${{ parameters.os }}.tar.gz'
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: app-${{ parameters.os }}
+      targetPath: $(Build.ArtifactStagingDirectory)
