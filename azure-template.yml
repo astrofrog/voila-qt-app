@@ -1,6 +1,3 @@
-parameters:
-  pip_prefix: ''
-
 jobs:
 - job: ${{ format(parameters.name) }}
   pool:
@@ -22,16 +19,21 @@ jobs:
         versionSpec: '3.7'
         architecture: 'x64'
 
-  - script: ${{ parameters.pip_prefix }} pip install git+https://github.com/pyinstaller/pyinstaller.git
+  - ${{ if eq(parameters.os, 'linux') }}:
+
+    - script: export PATH=$HOME/.local/python/bin:$PATH
+      displayName: Setting PATH
+
+  - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
     displayName: Installing pyinstaller
 
-  - script: ${{ parameters.pip_prefix }} pip install PyQt5 PyQtWebEngine
+  - script: pip install PyQt5 PyQtWebEngine
     displayName: Installing app dependencies
 
-  - script: ${{ parameters.pip_prefix }} pip freeze
+  - script: pip freeze
     displayName: List dependencies
 
-  - script: ${{ parameters.pip_prefix }} pyinstaller --onedir qtonly.py
+  - script: pyinstaller --onedir qtonly.py
     displayName: Building application in onedir mode
 
   - ${{ if eq(parameters.os, 'linux') }}:
