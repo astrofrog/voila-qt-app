@@ -1,3 +1,6 @@
+parameters:
+  pip_prefix: ''
+
 jobs:
 - job: ${{ format(parameters.name) }}
   pool:
@@ -19,13 +22,13 @@ jobs:
         versionSpec: '3.7'
         architecture: 'x64'
 
-  - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
+  - script: ${{ parameters.pip_prefix }} pip install git+https://github.com/pyinstaller/pyinstaller.git
     displayName: Installing pyinstaller
 
-  - script: pip install PyQt5 PyQtWebEngine
+  - script: ${{ parameters.pip_prefix }} pip install PyQt5 PyQtWebEngine
     displayName: Installing app dependencies
 
-  - script: pip freeze
+  - script: ${{ parameters.pip_prefix }} pip freeze
     displayName: List dependencies
 
   - script: pyinstaller --onedir qtonly.py

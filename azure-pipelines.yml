@@ -4,6 +4,7 @@ jobs:
   parameters:
     name: Linux
     os: linux
+    pip_prefix: sudo
 
 - template: azure-template.yml
   parameters:
