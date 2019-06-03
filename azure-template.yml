@@ -25,6 +25,11 @@ jobs:
     - script: pip install PyQt5 PyQtWebEngine
       displayName: Installing app dependencies
 
+  - ${{ if eq(parameters.os, 'linux') }}:
+
+    - script: start-xvfb
+      displayName: Start XVFB
+
   - script: pip freeze
     displayName: List dependencies
 
