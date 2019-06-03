@@ -31,7 +31,7 @@ jobs:
   - script: ${{ parameters.pip_prefix }} pip freeze
     displayName: List dependencies
 
-  - script: pyinstaller --onedir qtonly.py
+  - script: ${{ parameters.pip_prefix }} pyinstaller --onedir qtonly.py
     displayName: Building application in onedir mode
 
   - ${{ if eq(parameters.os, 'linux') }}:
