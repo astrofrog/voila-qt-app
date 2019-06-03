@@ -19,16 +19,11 @@ jobs:
         versionSpec: '3.7'
         architecture: 'x64'
 
-  - ${{ if eq(parameters.os, 'linux') }}:
+    - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
+      displayName: Installing pyinstaller
 
-    - script: export PATH=$HOME/.local/python/bin:$PATH
-      displayName: Setting PATH
-
-  - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
-    displayName: Installing pyinstaller
-
-  - script: pip install PyQt5 PyQtWebEngine
-    displayName: Installing app dependencies
+    - script: pip install PyQt5 PyQtWebEngine
+      displayName: Installing app dependencies
 
   - script: pip freeze
     displayName: List dependencies
