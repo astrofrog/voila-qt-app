@@ -26,11 +26,14 @@ jobs:
   - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
     displayName: Installing pyinstaller
 
-  - script: pip install voila PyQt5 PyQtWebEngine jsonschema==2.6.0
+  - script: pip install PyQt5 PyQtWebEngine
     displayName: Installing app dependencies
 
-  - script: pyinstaller --onefile --windowed voila_qt_full.spec
-    displayName: Building application
+  - script: pyinstaller --onedir qtonly.py
+    displayName: Building application in onedir mode
+
+  - script: dist/qtonly/qtonly
+    displayName: Testing application
 
   - task: ArchiveFiles@2
     inputs:
@@ -38,9 +41,9 @@ jobs:
       includeRootFolder: false
       archiveType: 'tar'
       tarCompression: 'gz'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/app_${{ parameters.os }}.tar.gz'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/qtonly-${{ parameters.os }}.tar.gz'
 
   - task: PublishPipelineArtifact@0
     inputs:
-      artifactName: app-${{ parameters.os }}
+      artifactName: qtonly-${{ parameters.os }}
       targetPath: $(Build.ArtifactStagingDirectory)
