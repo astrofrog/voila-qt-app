@@ -33,22 +33,25 @@ jobs:
   - script: pip freeze
     displayName: List dependencies
 
-  - script: pyinstaller --onedir qtonly.py
+  - script: pyinstaller qtonly.spec
     displayName: Building application in onedir mode
 
   - ${{ if eq(parameters.os, 'linux') }}:
 
-    - script: dist/qtonly/qtonly
+    - script: dist/qtonly/qtonly --nonblocking
       displayName: Testing application
 
   - ${{ if eq(parameters.os, 'macosx') }}:
 
-    - script: dist/qtonly/qtonly
+    - script: python fix_osx.py
+      displayName: Fix application
+
+    - script: dist/qtonly.app/Contents/MacOS/qtonly --nonblocking
       displayName: Testing application
 
   - ${{ if eq(parameters.os, 'windows') }}:
 
-    - script: .\dist\qtonly\qtonly
+    - script: .\dist\qtonly\qtonly --nonblocking
       displayName: Testing application
 
   - task: ArchiveFiles@2
