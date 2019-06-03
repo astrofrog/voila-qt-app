@@ -38,7 +38,7 @@ jobs:
 
   - ${{ if eq(parameters.os, 'linux') }}:
 
-    - script: QT_DEBUG_PLUGINS=1 dist/qtonly/qtonly
+    - script: dist/qtonly/qtonly
       displayName: Testing application
 
   - ${{ if eq(parameters.os, 'macosx') }}:
