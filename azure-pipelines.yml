@@ -5,12 +5,12 @@ jobs:
     name: Linux
     os: linux
 
-- template: azure-template.yml
-  parameters:
-    name: MacOSX
-    os: macosx
-
-- template: azure-template.yml
-  parameters:
-    name: Windows
-    os: windows
+# - template: azure-template.yml
+#   parameters:
+#     name: MacOSX
+#     os: macosx
+#
+# - template: azure-template.yml
+#   parameters:
+#     name: Windows
+#     os: windows
