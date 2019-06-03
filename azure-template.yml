@@ -29,6 +29,9 @@ jobs:
   - script: pip install PyQt5 PyQtWebEngine
     displayName: Installing app dependencies
 
+  - script: pip freeze
+    displayName: List dependencies
+
   - script: pyinstaller --onedir qtonly.py
     displayName: Building application in onedir mode
 
