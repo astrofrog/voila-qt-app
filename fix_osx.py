@@ -50,5 +50,15 @@ def patch_osx_app():
         if not os.path.exists(os.path.join(app_path, 'Contents', 'MacOS', package)):
             shutil.copytree(path, os.path.join(app_path, 'Contents', 'MacOS', package))
 
+    import voila
+    from voila import paths
+    templates_dir = os.path.join(app_path, 'Contents', 'MacOS', 'share', 'jupyter', 'voila', 'templates')
+    os.makedirs(templates_dir, exist_ok=True)
+    for path in paths.jupyter_path():
+        for template in glob.glob(os.path.join(path, 'voila', 'templates', '*')):
+            template_name = os.path.basename(template)
+            destination = os.path.join(templates_dir, template_name)
+            if not os.path.exists(destination):
+                shutil.copytree(template, destination)
 
 patch_osx_app()
