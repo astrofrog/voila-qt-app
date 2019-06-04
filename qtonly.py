@@ -2,7 +2,7 @@ import os
 import sys
 
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5 import QtCore
 
 os.environ['QTWEBENGINE_CHROMIUM_FLAGS'] = '--single-process'

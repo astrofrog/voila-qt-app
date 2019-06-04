@@ -1,13 +1,16 @@
 import os
+import sys
 import glob
 import shutil
+import importlib
 
 
 def patch_osx_app():
     """Patch .app to copy missing data and link some libs.
     See https://github.com/pyinstaller/pyinstaller/issues/2276
     """
-    app_path = os.path.join('dist', 'qtonly.app')
+
+    app_path = sys.argv[1]
 
     import PyQt5
 
@@ -39,5 +42,13 @@ def patch_osx_app():
             os.symlink(os.path.join(os.pardir, os.pardir, os.pardir, 'Contents',
                                     'MacOS', lib),
                        os.path.join(dest, lib))
+
+    # Copy over static files for nbformat and voila
+    packages = ('voila', 'nbformat')
+    for package in packages:
+        path = importlib.import_module(package).__path__[0]
+        if not os.path.exists(os.path.join(app_path, 'Contents', 'MacOS', package)):
+            shutil.copytree(path, os.path.join(app_path, 'Contents', 'MacOS', package))
+
 
 patch_osx_app()
