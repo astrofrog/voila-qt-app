@@ -49,6 +49,9 @@ jobs:
     - script: python fix_osx.py dist/voila_qt_full.app
       displayName: Fix application
 
+    - script: rm -r dist/voila_qt_full
+      displayName: Remove unused directory
+
     - script: dist/voila_qt_full.app/Contents/MacOS/voila_qt_full --nonblocking
       displayName: Testing application
 
