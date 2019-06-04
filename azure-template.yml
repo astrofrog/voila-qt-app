@@ -39,10 +39,10 @@ jobs:
   - script: pyinstaller voila_demo.spec
     displayName: Building application in onedir mode
 
-  # - ${{ if eq(parameters.os, 'linux') }}:
-  #
-  #   - script: dist/voila_demo/voila_demo --nonblocking
-  #     displayName: Testing application
+  - ${{ if eq(parameters.os, 'linux') }}:
+
+    - script: dist/voila_demo/voila_demo --nonblocking
+      displayName: Testing application
 
   - ${{ if eq(parameters.os, 'macosx') }}:
 
@@ -52,13 +52,13 @@ jobs:
     - script: rm -r dist/voila_demo
       displayName: Remove unused directory
 
-  #   - script: dist/voila_demo.app/Contents/MacOS/voila_demo --nonblocking
-  #     displayName: Testing application
-  #
-  # - ${{ if eq(parameters.os, 'windows') }}:
-  #
-  #   - script: .\dist\voila_demo\voila_demo --nonblocking
-  #     displayName: Testing application
+    - script: dist/voila_demo.app/Contents/MacOS/voila_demo --nonblocking
+      displayName: Testing application
+
+  - ${{ if eq(parameters.os, 'windows') }}:
+
+    - script: .\dist\voila_demo\voila_demo --nonblocking
+      displayName: Testing application
 
   - ${{ if eq(parameters.os, 'macosx') }}:
 
