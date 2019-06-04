@@ -30,7 +30,7 @@ jobs:
     - script: start-xvfb
       displayName: Start XVFB
 
-  - script: pip install voila ipywidgets bqplot ipyvuetify
+  - script: pip install voila ipywidgets bqplot ipyvuetify git+https://github.com/mariobuikhuizen/voila-vuetify.git@plots
     displayName: Installing voila and related dependencies
 
   - script: pip freeze

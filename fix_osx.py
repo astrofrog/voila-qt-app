@@ -50,21 +50,24 @@ def patch_osx_app():
         if not os.path.exists(os.path.join(app_path, 'Contents', 'MacOS', package)):
             shutil.copytree(path, os.path.join(app_path, 'Contents', 'MacOS', package))
 
-    import voila
-    from voila import paths
-    share_dir = os.path.join(app_path, 'Contents', 'MacOS', 'share')
-    os.makedirs(share_dir, exist_ok=True)
+    from voila import paths, __path__
+    path = os.path.abspath(os.path.join(__path__[0], '..', 'share', 'jupyter'))
 
-    for path in paths.jupyter_path():
-        print(path)
-        if '/dev/' in path or '.local' in path:
-            break
-    else:
-        raise ValueError("Could not determine jupyter folder to use")
+    if not os.path.exists(os.path.join(path, 'voila')):
+        for path in paths.jupyter_path():
+            print(path)
+            if os.path.exists(os.path.join(path, 'voila')):
+                break
+        else:
+            raise ValueError("Could not determine jupyter folder to use")
+
+    print("Copying files from " + path)
+
+    share_dir = os.path.join(app_path, 'Contents', 'MacOS', 'share')
 
     if not os.path.exists(os.path.join(share_dir, 'jupyter')):
         print('making ' + os.path.join(share_dir, 'jupyter'))
-        os.mkdir(os.path.join(share_dir, 'jupyter'))
+        os.makedirs(os.path.join(share_dir, 'jupyter'))
         for sub in ['nbextensions', 'voila']:
             print('copying ' + os.path.join(path, sub))
             shutil.copytree(os.path.join(path, sub), os.path.join(share_dir, 'jupyter', sub))
