@@ -39,10 +39,10 @@ jobs:
   - script: pyinstaller voila_qt_full.spec
     displayName: Building application in onedir mode
 
-  - ${{ if eq(parameters.os, 'linux') }}:
-
-    - script: dist/voila_qt_full/voila_qt_full --nonblocking
-      displayName: Testing application
+  # - ${{ if eq(parameters.os, 'linux') }}:
+  #
+  #   - script: dist/voila_qt_full/voila_qt_full --nonblocking
+  #     displayName: Testing application
 
   - ${{ if eq(parameters.os, 'macosx') }}:
 
@@ -52,13 +52,13 @@ jobs:
     - script: rm -r dist/voila_qt_full
       displayName: Remove unused directory
 
-    - script: dist/voila_qt_full.app/Contents/MacOS/voila_qt_full --nonblocking
-      displayName: Testing application
-
-  - ${{ if eq(parameters.os, 'windows') }}:
-
-    - script: .\dist\voila_qt_full\voila_qt_full --nonblocking
-      displayName: Testing application
+  #   - script: dist/voila_qt_full.app/Contents/MacOS/voila_qt_full --nonblocking
+  #     displayName: Testing application
+  #
+  # - ${{ if eq(parameters.os, 'windows') }}:
+  #
+  #   - script: .\dist\voila_qt_full\voila_qt_full --nonblocking
+  #     displayName: Testing application
 
   - task: ArchiveFiles@2
     inputs:
@@ -68,7 +68,26 @@ jobs:
       tarCompression: 'gz'
       archiveFile: '$(Build.ArtifactStagingDirectory)/voila_qt_full-${{ parameters.os }}.tar.gz'
 
-  - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: voila_qt_full-${{ parameters.os }}
-      targetPath: $(Build.ArtifactStagingDirectory)
+  - ${{ if eq(parameters.os, 'macosx') }}:
+
+    - script: hdiutil create -volname "Voila Demo" -srcfolder dist -ov -format UDZO voila_demo.dmg
+      displayName: Make DMG
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: voila_qt_full-${{ parameters.os }}
+        targetPath: voila_demo.dmg
+
+  - ${{ if eq(parameters.os, 'linux') }}:
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: voila_qt_full-${{ parameters.os }}
+        targetPath: dist/voila_qt_full
+
+  - ${{ if eq(parameters.os, 'windows') }}:
+
+    - task: PublishPipelineArtifact@0
+      inputs:
+        artifactName: voila_qt_full-${{ parameters.os }}
+        targetPath: dist\voila_qt_full
