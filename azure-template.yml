@@ -43,7 +43,7 @@ jobs:
 
   - ${{ if eq(parameters.os, 'macosx') }}:
 
-    - script: python fix_osx.py
+    - script: python fix_osx.py dist/voila_qt_full.app
       displayName: Fix application
 
     - script: dist/voila_qt_full.app/Contents/MacOS/voila_qt_full --nonblocking
