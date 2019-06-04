@@ -3,11 +3,16 @@
 block_cipher = None
 
 
-a = Analysis(['qtonly.py'],
+a = Analysis(['voila_demo.py'],
              pathex=['voila-qt'],
              binaries=[],
-             datas=[],
-             hiddenimports=[],
+             datas=[('app_notebooks/basics.ipynb', 'app_notebooks')],
+             hiddenimports=['voila',
+                            'ipykernel',
+                            'ipykernel.datapub',
+                            'ipywidgets',
+                            'jupyterlab_pygments',
+                            'storemagic'],
              hookspath=[],
              runtime_hooks=[],
              excludes=['tkinter'],
@@ -22,7 +27,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='qtonly',
+          name='voila_demo',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -35,8 +40,11 @@ coll = COLLECT(exe,
                a.datas,
                strip=False,
                upx=False,
-               name='qtonly')
+               name='voila_demo')
 
 app = BUNDLE(coll,
-             name='qtonly.app',
+             name='voila_demo.app',
+             info_plist={
+             'NSHighResolutionCapable': 'True'
+             },
              bundle_identifier='org.qt-project.Qt.QtWebEngineCore')
