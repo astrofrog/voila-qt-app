@@ -30,8 +30,8 @@ jobs:
     - script: start-xvfb
       displayName: Start XVFB
 
-  - script: pip install voila
-    displayName: Installing voila
+  - script: pip install voila ipywidgets
+    displayName: Installing voila and related dependencies
 
   - script: pip freeze
     displayName: List dependencies
