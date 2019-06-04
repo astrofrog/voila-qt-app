@@ -1,18 +1,24 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
+import glob
+
 block_cipher = None
 
+notebooks = [(x, 'app_notebooks') for x in glob.glob(os.path.join('app_notebooks', '*.ipynb'))]
 
 a = Analysis(['voila_demo.py'],
              pathex=['voila-qt'],
              binaries=[],
-             datas=[('app_notebooks/basics.ipynb', 'app_notebooks')],
+             datas=notebooks,
              hiddenimports=['voila',
                             'ipykernel',
                             'ipykernel.datapub',
                             'ipywidgets',
                             'jupyterlab_pygments',
-                            'storemagic'],
+                            'storemagic',
+                            'ipyvuetify',
+                            'bqplot'],
              hookspath=[],
              runtime_hooks=[],
              excludes=['tkinter'],

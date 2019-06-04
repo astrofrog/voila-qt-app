@@ -36,7 +36,7 @@ from PyQt5 import QtCore
 import app_notebooks  # noqa
 
 # Find the path to the notebook
-notebook = os.path.join(app_notebooks.__path__[0], 'basics.ipynb')
+notebook = os.path.join(app_notebooks.__path__[0], 'mountable2.ipynb')
 
 # Find a free port
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -46,7 +46,7 @@ sock.close()
 
 
 def process_main():
-    main([notebook, '--no-browser', '--port={0}'.format(port)])
+    main([notebook, '--template', 'custom', '--no-browser', '--port={0}'.format(port)])
 
 
 # Since voila needs to run its own event loop, we start it in its own process.
