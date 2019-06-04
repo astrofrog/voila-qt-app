@@ -56,6 +56,7 @@ def patch_osx_app():
     os.makedirs(share_dir, exist_ok=True)
 
     for path in paths.jupyter_path():
+        print(path)
         if '/dev/' in path or '.local' in path:
             break
     else:
