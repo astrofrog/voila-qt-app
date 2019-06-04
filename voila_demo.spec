@@ -16,11 +16,11 @@ a = Analysis(['voila_demo.py'],
                             'ipykernel.datapub',
                             'ipywidgets',
                             'jupyterlab_pygments',
-                            'storemagic',
                             'ipyvuetify',
                             'bqplot',
                             'nbformat',
-                            'nbconvert'],
+                            'nbconvert',
+                            'voila-vuetify'],
              hookspath=[],
              runtime_hooks=[],
              excludes=['tkinter'],
@@ -40,7 +40,8 @@ exe = EXE(pyz,
           bootloader_ignore_signals=False,
           strip=False,
           upx=False,
-          console=False)
+          console=False,
+          icon=os.path.abspath('icon.icns'))
 
 coll = COLLECT(exe,
                a.binaries,
@@ -52,6 +53,7 @@ coll = COLLECT(exe,
 
 app = BUNDLE(coll,
              name='voila_demo.app',
+             icon=os.path.abspath('icon.icns'),
              info_plist={
              'NSHighResolutionCapable': 'True'
              },
