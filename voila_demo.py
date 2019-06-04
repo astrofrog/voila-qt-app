@@ -1,5 +1,10 @@
 import sys
 
+# Voila (or one of its dependencies) tries to launch the kernel by calling
+# python with -m ipykernel_kauncher - however it does this seemingly by using
+# sys.executable, which in the case of an app is actually this script. So we
+# need to catch this case and start the kernel manually.
+
 if 'ipykernel_launcher' in sys.argv:
 
     if sys.path[0] == '':
@@ -10,46 +15,57 @@ if 'ipykernel_launcher' in sys.argv:
 
     sys.exit(0)
 
-import multiprocessing
-multiprocessing.freeze_support()
+# We put all other imports below to minimize how many imports have to be
+# done in the above case where the kernel is being launched.
 
 from multiprocessing import Process
 
-from voila.app import main
-
 import os
 import time
-import tempfile
-import app_notebooks  # noqa
+import socket
 
-import pkgutil
+from voila.app import main
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5 import QtCore
 
-# notebook_content = pkgutil.get_data('app_notebooks', 'basics.ipynb')
-# tmpdir = tempfile.mkdtemp()
+# The following module is a fake module that contains the notebook
+# to execute for now. We do this to make it easy to figure out the
+# path to the file once we are in the application context
+import app_notebooks  # noqa
+
+# Find the path to the notebook
 notebook = os.path.join(app_notebooks.__path__[0], 'basics.ipynb')
 
-os.environ['JOBLIB_MULTIPROCESSING'] = '0'
+# Find a free port
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.bind(('localhost', 0))
+port = sock.getsockname()[1]
+sock.close()
+
 
 def process_main():
-    os.environ['JOBLIB_MULTIPROCESSING'] = '0'
-    main([notebook, '--no-browser', '--port=8789'])
+    main([notebook, '--no-browser', '--port={0}'.format(port)])
 
-# Note: can't use voila in a thread, so need to use a process
+
+# Since voila needs to run its own event loop, we start it in its own process.
 voila_process = Process(target=process_main)
 voila_process.start()
 
-time.sleep(2)
+# Wait a little just to make sure voila has started up
+time.sleep(1)
 
+# We need to make sure we run webengine with --single-process
+# otherwise the page remains blank.
 os.environ['QTWEBENGINE_CHROMIUM_FLAGS'] = '--single-process'
 
 app = QApplication([''])
 web = QWebEngineView()
-web.setUrl(QtCore.QUrl('http://localhost:8789'))
+web.setUrl(QtCore.QUrl('http://localhost:{0}'.format(port)))
 web.show()
 
+# The following option is used in CI so that we can run through
+# the program once without having to hang.
 if '--nonblocking' not in sys.argv:
     app.exec_()
