@@ -43,4 +43,7 @@ coll = COLLECT(exe,
 
 app = BUNDLE(coll,
              name='voila_qt_full.app',
+             info_plist={
+             'NSHighResolutionCapable': 'True'
+             },
              bundle_identifier='org.qt-project.Qt.QtWebEngineCore')
