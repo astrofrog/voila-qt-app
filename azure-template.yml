@@ -30,7 +30,7 @@ jobs:
     - script: start-xvfb
       displayName: Start XVFB
 
-  - script: pip install voila ipywidgets
+  - script: pip install voila ipywidgets bqplot ipyvuetify
     displayName: Installing voila and related dependencies
 
   - script: pip freeze
