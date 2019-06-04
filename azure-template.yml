@@ -60,14 +60,6 @@ jobs:
   #   - script: .\dist\voila_qt_full\voila_qt_full --nonblocking
   #     displayName: Testing application
 
-  - task: ArchiveFiles@2
-    inputs:
-      rootFolderOrFile: dist
-      includeRootFolder: false
-      archiveType: 'tar'
-      tarCompression: 'gz'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/voila_qt_full-${{ parameters.os }}.tar.gz'
-
   - ${{ if eq(parameters.os, 'macosx') }}:
 
     - script: hdiutil create -volname "Voila Demo" -srcfolder dist -ov -format UDZO voila_demo.dmg
