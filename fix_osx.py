@@ -44,7 +44,7 @@ def patch_osx_app():
                        os.path.join(dest, lib))
 
     # Copy over static files for nbformat and voila
-    packages = ('voila', 'nbformat', 'nbconvert')
+    packages = ('voila', 'nbformat', 'nbconvert', 'bqplot')
     for package in packages:
         path = importlib.import_module(package).__path__[0]
         if not os.path.exists(os.path.join(app_path, 'Contents', 'MacOS', package)):
@@ -52,13 +52,18 @@ def patch_osx_app():
 
     import voila
     from voila import paths
-    templates_dir = os.path.join(app_path, 'Contents', 'MacOS', 'share', 'jupyter', 'voila', 'templates')
-    os.makedirs(templates_dir, exist_ok=True)
+    share_dir = os.path.join(app_path, 'Contents', 'MacOS', 'share')
+    os.makedirs(share_dir, exist_ok=True)
+
     for path in paths.jupyter_path():
-        for template in glob.glob(os.path.join(path, 'voila', 'templates', '*')):
-            template_name = os.path.basename(template)
-            destination = os.path.join(templates_dir, template_name)
-            if not os.path.exists(destination):
-                shutil.copytree(template, destination)
+        if sys.prefix in path:
+            break
+    else:
+        raise ValueError("Could not determine jupyter folder to use")
+
+    if not os.path.exists(os.path.join(share_dir, 'jupyter')):
+        os.mkdir(os.path.join(share_dir, 'jupyter'))
+        for sub in ['nbextensions', 'voila']:
+            shutil.copytree(os.path.join(path, sub), os.path.join(share_dir, 'jupyter', sub))
 
 patch_osx_app()
