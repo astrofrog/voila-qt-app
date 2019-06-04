@@ -44,7 +44,7 @@ def patch_osx_app():
                        os.path.join(dest, lib))
 
     # Copy over static files for nbformat and voila
-    packages = ('voila', 'nbformat')
+    packages = ('voila', 'nbformat', 'nbconvert')
     for package in packages:
         path = importlib.import_module(package).__path__[0]
         if not os.path.exists(os.path.join(app_path, 'Contents', 'MacOS', package)):
