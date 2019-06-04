@@ -67,7 +67,8 @@ web.show()
 
 # The following option is used in CI so that we can run through
 # the program once without having to hang.
-if '--nonblocking' in sys.argv:
-    voila_process.terminate()
-else:
+if '--nonblocking' not in sys.argv:
     app.exec_()
+
+voila_process.terminate()
+
