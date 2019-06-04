@@ -56,14 +56,16 @@ def patch_osx_app():
     os.makedirs(share_dir, exist_ok=True)
 
     for path in paths.jupyter_path():
-        if sys.prefix in path:
+        if '/dev/' in path or '.local' in path:
             break
     else:
         raise ValueError("Could not determine jupyter folder to use")
 
     if not os.path.exists(os.path.join(share_dir, 'jupyter')):
+        print('making ' + os.path.join(share_dir, 'jupyter'))
         os.mkdir(os.path.join(share_dir, 'jupyter'))
         for sub in ['nbextensions', 'voila']:
+            print('copying ' + os.path.join(path, sub))
             shutil.copytree(os.path.join(path, sub), os.path.join(share_dir, 'jupyter', sub))
 
 patch_osx_app()
