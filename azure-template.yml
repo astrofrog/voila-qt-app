@@ -33,12 +33,12 @@ jobs:
   - script: pip freeze
     displayName: List dependencies
 
-  - script: pyinstaller qtonly.spec
+  - script: pyinstaller voila_qt_full.spec
     displayName: Building application in onedir mode
 
   - ${{ if eq(parameters.os, 'linux') }}:
 
-    - script: dist/qtonly/qtonly --nonblocking
+    - script: dist/voila_qt_full/voila_qt_full --nonblocking
       displayName: Testing application
 
   - ${{ if eq(parameters.os, 'macosx') }}:
@@ -46,12 +46,12 @@ jobs:
     - script: python fix_osx.py
       displayName: Fix application
 
-    - script: dist/qtonly.app/Contents/MacOS/qtonly --nonblocking
+    - script: dist/voila_qt_full.app/Contents/MacOS/voila_qt_full --nonblocking
       displayName: Testing application
 
   - ${{ if eq(parameters.os, 'windows') }}:
 
-    - script: .\dist\qtonly\qtonly --nonblocking
+    - script: .\dist\voila_qt_full\voila_qt_full --nonblocking
       displayName: Testing application
 
   - task: ArchiveFiles@2
@@ -60,9 +60,9 @@ jobs:
       includeRootFolder: false
       archiveType: 'tar'
       tarCompression: 'gz'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/qtonly-${{ parameters.os }}.tar.gz'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/voila_qt_full-${{ parameters.os }}.tar.gz'
 
   - task: PublishPipelineArtifact@0
     inputs:
-      artifactName: qtonly-${{ parameters.os }}
+      artifactName: voila_qt_full-${{ parameters.os }}
       targetPath: $(Build.ArtifactStagingDirectory)
