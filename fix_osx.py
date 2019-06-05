@@ -43,13 +43,6 @@ def patch_osx_app():
                                     'MacOS', lib),
                        os.path.join(dest, lib))
 
-    # Copy over static files for nbformat and voila
-    packages = ('voila', 'nbformat', 'nbconvert', 'bqplot')
-    for package in packages:
-        path = importlib.import_module(package).__path__[0]
-        if not os.path.exists(os.path.join(app_path, 'Contents', 'MacOS', package)):
-            shutil.copytree(path, os.path.join(app_path, 'Contents', 'MacOS', package))
-
     from voila import paths, __path__
     path = os.path.abspath(os.path.join(__path__[0], '..', 'share', 'jupyter'))
 
@@ -71,5 +64,6 @@ def patch_osx_app():
         for sub in ['nbextensions', 'voila']:
             print('copying ' + os.path.join(path, sub))
             shutil.copytree(os.path.join(path, sub), os.path.join(share_dir, 'jupyter', sub))
+
 
 patch_osx_app()
