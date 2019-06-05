@@ -67,8 +67,12 @@ web.show()
 
 # The following option is used in CI so that we can run through
 # the program once without having to hang.
-if '--nonblocking' not in sys.argv:
+if '--nonblocking' in sys.argv:
+    print("Running for 20s before exiting")
+    start = time.time()
+    while time.time() - start < 20:
+        app.processEvents()
+else:
     app.exec_()
 
 voila_process.terminate()
-
