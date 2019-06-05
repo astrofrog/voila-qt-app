@@ -30,6 +30,8 @@ from subprocess import Popen
 import os
 import time
 import socket
+from urllib.request import urlopen
+from urllib.error import URLError, HTTPError
 
 from voila.app import main
 
@@ -54,8 +56,19 @@ sock.close()
 # Since voila needs to run its own event loop, we start it in its own process.
 voila_process = Popen([sys.executable, '-m', 'voila', notebook, '--template', 'custom', '--no-browser', '--port={0}'.format(port)])
 
-# Wait a little just to make sure voila has started up
-time.sleep(1)
+# Wait until the server seems to respond
+while True:
+
+    print('Waiting for voila to start up...')
+    time.sleep(1)
+
+    try:
+        result = urlopen('http://localhost:{0}/favicon.ico'.format(port))
+        break
+    except HTTPError:
+        break
+    except URLError:
+        pass
 
 # We need to make sure we run webengine with --single-process
 # otherwise the page remains blank.
