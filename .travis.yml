@@ -1,5 +1,7 @@
 language: c
 
+osx_image: xcode6.4
+
 os:
   - osx
 
@@ -11,16 +13,17 @@ env:
 install:
   - git clone --depth 1 git://github.com/astropy/ci-helpers.git
   - source ci-helpers/travis/setup_conda.sh
-
-script:
-
   - pip install git+https://github.com/pyinstaller/pyinstaller.git
   - pip install PyQt5 PyQtWebEngine
   - pip install voila ipywidgets bqplot ipyvuetify git+https://github.com/mariobuikhuizen/voila-vuetify.git@plots numpy scipy astropy
-
   - pip freeze
 
+script:
   - pyinstaller voila_demo.spec
-
   - python fix_osx.py dist/voila_demo.app
   - dist/voila_demo.app/Contents/MacOS/voila_demo --nonblocking
+  - hdiutil create -volname "Voila Demo" -srcfolder dist -ov -format UDZO voila_demo.dmg
+
+after_success:
+  - pip install awscli
+  - aws s3 cp voila_demo.dmg s3://voila-qt-apps/
