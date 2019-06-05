@@ -15,10 +15,17 @@ if 'ipykernel_launcher' in sys.argv:
 
     sys.exit(0)
 
+if 'voila' in sys.argv:
+
+    from voila.app import main
+    main(sys.argv[3:])
+
+    sys.exit(0)
+
 # We put all other imports below to minimize how many imports have to be
 # done in the above case where the kernel is being launched.
 
-from multiprocessing import Process
+from subprocess import Popen
 
 import os
 import time
@@ -44,14 +51,8 @@ sock.bind(('localhost', 0))
 port = sock.getsockname()[1]
 sock.close()
 
-
-def process_main():
-    main([notebook, '--template', 'custom', '--no-browser', '--port={0}'.format(port)])
-
-
 # Since voila needs to run its own event loop, we start it in its own process.
-voila_process = Process(target=process_main)
-voila_process.start()
+voila_process = Popen([sys.executable, '-m', 'voila', notebook, '--template', 'custom', '--no-browser', '--port={0}'.format(port)])
 
 # Wait a little just to make sure voila has started up
 time.sleep(1)
