@@ -90,3 +90,4 @@ else:
     app.exec_()
 
 voila_process.terminate()
+voila_process.wait()
