@@ -42,7 +42,7 @@ jobs:
     displayName: List dependencies
 
   - script: pyinstaller voila_demo.spec
-    displayName: Building application in onedir mode
+    displayName: Building application
 
   - ${{ if eq(parameters.os, 'linux') }}:
 
