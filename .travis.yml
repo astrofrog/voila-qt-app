@@ -14,7 +14,7 @@ install:
   - git clone --depth 1 git://github.com/astropy/ci-helpers.git
   - source ci-helpers/travis/setup_conda.sh
   - pip install git+https://github.com/pyinstaller/pyinstaller.git
-  - pip install PyQt5==5.9.2
+  - pip install PyQt5==5.11.3
   - pip install voila ipywidgets bqplot ipyvuetify git+https://github.com/mariobuikhuizen/voila-vuetify.git@plots numpy scipy astropy
   - pip freeze
 
