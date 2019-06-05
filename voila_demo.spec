@@ -1,7 +1,15 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 import os
+import sys
 import glob
+
+if os.name == 'nt':
+    icon = os.path.abspath('icon.ico')
+elif sys.platform == 'darwin':
+    icon = os.path.abspath('icon.icns')
+else:
+    icon = None
 
 block_cipher = None
 
@@ -44,7 +52,7 @@ exe = EXE(pyz,
           strip=False,
           upx=False,
           console=False,
-          icon=os.path.abspath('icon.icns'))
+          icon=icon)
 
 coll = COLLECT(exe,
                a.binaries,
@@ -56,7 +64,7 @@ coll = COLLECT(exe,
 
 app = BUNDLE(coll,
              name='voila_demo.app',
-             icon=os.path.abspath('icon.icns'),
+             icon=icon,
              info_plist={
              'NSHighResolutionCapable': 'True'
              },
