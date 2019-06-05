@@ -89,5 +89,5 @@ if '--nonblocking' in sys.argv:
 else:
     app.exec_()
 
-voila_process.terminate()
+voila_process.kill()
 voila_process.wait()
