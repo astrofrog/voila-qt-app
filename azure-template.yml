@@ -33,6 +33,11 @@ jobs:
   - script: pip install voila ipywidgets bqplot ipyvuetify git+https://github.com/mariobuikhuizen/voila-vuetify.git@plots numpy scipy astropy
     displayName: Installing voila and related dependencies
 
+  - ${{ if eq(parameters.os, 'windows') }}:
+
+    - script: pip install pywin32
+      displayName: Installing pywin32
+
   - script: pip freeze
     displayName: List dependencies
 
