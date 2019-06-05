@@ -10,7 +10,7 @@ jobs:
     name: MacOSX
     os: macosx
 
-# - template: azure-template.yml
-#   parameters:
-#     name: Windows
-#     os: windows
+- template: azure-template.yml
+  parameters:
+    name: Windows
+    os: windows
