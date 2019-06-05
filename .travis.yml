@@ -27,4 +27,5 @@ script:
 
 after_success:
   - pip install awscli
-  - aws s3 cp voila_demo.dmg s3://voila-qt-apps/
+  - mv voila_demo.dmg "voila_demo_"$TRAVIS_BRANCH".dmg"
+  - aws s3 cp "voila_demo_"$TRAVIS_BRANCH".dmg" s3://voila-qt-apps/
