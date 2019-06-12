@@ -1,16 +1,114 @@
+variables:
+  dependencies: voila ipywidgets bqplot ipyvuetify git+https://github.com/mariobuikhuizen/voila-vuetify.git numpy scipy astropy
+
 jobs:
 
-- template: azure-template.yml
-  parameters:
-    name: Linux
-    os: linux
+- job: Linux
 
-- template: azure-template.yml
-  parameters:
-    name: MacOSX
-    os: macosx
+  pool:
+    vmImage: Ubuntu 16.04
+  container: astrofrog/ubuntu-with-python-3:latest
 
-- template: azure-template.yml
-  parameters:
-    name: Windows
-    os: windows
+  steps:
+
+  - script: start-xvfb
+    displayName: Start XVFB
+
+  - script: pip install $(dependencies)
+    displayName: Installing voila and related dependencies
+
+  - script: pip freeze
+    displayName: List dependencies
+
+  - script: pyinstaller voila_demo.spec
+    displayName: Building application
+
+  - script: dist/voila_demo/voila_demo --nonblocking
+    displayName: Testing application
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: voila_demo-linux
+      targetPath: dist/voila_demo
+
+- job: MacOSX
+
+  pool:
+    vmImage: macOS 10.13
+
+  steps:
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7'
+      architecture: 'x64'
+
+  - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
+    displayName: Installing pyinstaller
+
+  - script: pip install PyQt5 PyQtWebEngine
+    displayName: Installing app dependencies
+
+  - script: pip install $(dependencies)
+    displayName: Installing voila and related dependencies
+
+  - script: pip freeze
+    displayName: List dependencies
+
+  - script: pyinstaller voila_demo.spec
+    displayName: Building application
+
+  - script: python fix_osx.py dist/voila_demo.app
+    displayName: Fix application
+
+  - script: rm -r dist/voila_demo
+    displayName: Remove unused directory
+
+  - script: dist/voila_demo.app/Contents/MacOS/voila_demo --nonblocking
+    displayName: Testing application
+
+  - script: hdiutil create -volname "Voila Demo" -srcfolder dist -ov -format UDZO voila_demo.dmg
+    displayName: Make DMG
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: voila_demo-macosx
+      targetPath: voila_demo.dmg
+
+- job: Windows
+
+  pool:
+    vmImage: vs2017-win2016
+
+  steps:
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7'
+      architecture: 'x64'
+
+  - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
+    displayName: Installing pyinstaller
+
+  - script: pip install PyQt5 PyQtWebEngine
+    displayName: Installing app dependencies
+
+  - script: pip install $(dependencies)
+    displayName: Installing voila and related dependencies
+
+  - script: pip install pywin32
+    displayName: Installing pywin32
+
+  - script: pip freeze
+    displayName: List dependencies
+
+  - script: pyinstaller voila_demo.spec
+    displayName: Building application
+
+  - script: .\dist\voila_demo\voila_demo --nonblocking
+    displayName: Testing application
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: voila_demo-windows
+      targetPath: dist\voila_demo
