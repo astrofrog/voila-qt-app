@@ -3,6 +3,6 @@ LABEL authors="Thomas Robitaille <thomas.robitaille@gmail.com>"
 
 RUN apt install sudo
 RUN cp /usr/bin/pip3 /usr/bin/pip
-RUN pip install git+https://github.com/pyinstaller/pyinstaller.git
+RUN pip install git+https://github.com/astrofrog/pyinstaller.git@notebook-paths
 RUN apt install -y upx
 RUN apt install -y libxkbcommon-x11-0
