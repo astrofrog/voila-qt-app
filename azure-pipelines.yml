@@ -1,9 +1,9 @@
 jobs:
 
-# - template: azure-template.yml
-#   parameters:
-#     name: Linux
-#     os: linux
+- template: azure-template.yml
+  parameters:
+    name: Linux
+    os: linux
 
 - template: azure-template.yml
   parameters:
