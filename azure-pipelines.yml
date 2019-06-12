@@ -1,5 +1,5 @@
 variables:
-  dependencies: voila ipywidgets bqplot ipyvuetify git+https://github.com/mariobuikhuizen/voila-vuetify.git@plots numpy scipy astropy
+  dependencies: voila ipywidgets bqplot ipyvuetify voila-vuetify numpy scipy astropy
 
 jobs:
 
@@ -14,7 +14,7 @@ jobs:
   - script: start-xvfb
     displayName: Start XVFB
 
-  - script: pip install $(dependencies)
+  - script: pip install $(dependencies) --pre
     displayName: Installing voila and related dependencies
 
   - script: pip freeze
