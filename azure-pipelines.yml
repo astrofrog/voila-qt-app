@@ -1,5 +1,5 @@
 variables:
-  dependencies: voila ipywidgets bqplot ipyvuetify git+https://github.com/mariobuikhuizen/voila-vuetify.git numpy scipy astropy
+  dependencies: voila ipywidgets bqplot ipyvuetify git+https://github.com/mariobuikhuizen/voila-vuetify.git@plots numpy scipy astropy
 
 jobs:
 
@@ -43,7 +43,7 @@ jobs:
       versionSpec: '3.7'
       architecture: 'x64'
 
-  - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
+  - script: pip install git+https://github.com/astrofrog/pyinstaller.git@notebook-paths
     displayName: Installing pyinstaller
 
   - script: pip install PyQt5 PyQtWebEngine
@@ -87,7 +87,7 @@ jobs:
       versionSpec: '3.7'
       architecture: 'x64'
 
-  - script: pip install git+https://github.com/pyinstaller/pyinstaller.git
+  - script: pip install git+https://github.com/astrofrog/pyinstaller.git@notebook-paths
     displayName: Installing pyinstaller
 
   - script: pip install PyQt5 PyQtWebEngine
