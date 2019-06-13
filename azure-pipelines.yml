@@ -23,7 +23,7 @@ jobs:
   - script: pyinstaller voila_demo.spec
     displayName: Building application
 
-  - script: dist/voila_demo/voila_demo --nonblocking
+  - script: dist/voila_demo --nonblocking
     displayName: Testing application
 
   - task: PublishPipelineArtifact@0
@@ -105,10 +105,10 @@ jobs:
   - script: pyinstaller voila_demo.spec
     displayName: Building application
 
-  - script: .\dist\voila_demo\voila_demo --nonblocking
+  - script: .\dist\voila_demo.exe --nonblocking
     displayName: Testing application
 
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: voila_demo-windows
-      targetPath: dist\voila_demo
+      targetPath: dist\voila_demo.exe

@@ -45,8 +45,11 @@ pyz = PYZ(a.pure, a.zipped_data,
 
 exe = EXE(pyz,
           a.scripts,
+          a.binaries,
+          a.zipfiles,
+          a.datas,
           [],
-          exclude_binaries=True,
+          exclude_binaries=False,
           name='voila_demo',
           debug=False,
           bootloader_ignore_signals=False,
@@ -55,15 +58,7 @@ exe = EXE(pyz,
           console=True,
           icon=icon)
 
-coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas,
-               strip=False,
-               upx=False,
-               name='voila_demo')
-
-app = BUNDLE(coll,
+app = BUNDLE(exe,
              name='voila_demo.app',
              icon=icon,
              info_plist={
