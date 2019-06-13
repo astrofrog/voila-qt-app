@@ -43,7 +43,7 @@ jobs:
       versionSpec: '3.7'
       architecture: 'x64'
 
-  - script: pip install git+https://github.com/astrofrog/pyinstaller.git@notebook-paths
+  - script: pip install git+https://github.com/astrofrog/pyinstaller.git@develop
     displayName: Installing pyinstaller
 
   - script: pip install PyQt5 PyQtWebEngine
@@ -87,7 +87,7 @@ jobs:
       versionSpec: '3.7'
       architecture: 'x64'
 
-  - script: pip install git+https://github.com/astrofrog/pyinstaller.git@notebook-paths
+  - script: pip install git+https://github.com/astrofrog/pyinstaller.git@develop
     displayName: Installing pyinstaller
 
   - script: pip install PyQt5 PyQtWebEngine
