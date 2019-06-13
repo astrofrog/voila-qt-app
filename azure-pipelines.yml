@@ -49,7 +49,7 @@ jobs:
   - script: pip install PyQt5 PyQtWebEngine
     displayName: Installing app dependencies
 
-  - script: pip install $(dependencies)
+  - script: pip install $(dependencies) --pre
     displayName: Installing voila and related dependencies
 
   - script: pip freeze
@@ -93,7 +93,7 @@ jobs:
   - script: pip install PyQt5 PyQtWebEngine
     displayName: Installing app dependencies
 
-  - script: pip install $(dependencies)
+  - script: pip install $(dependencies) --pre
     displayName: Installing voila and related dependencies
 
   - script: pip install pywin32
