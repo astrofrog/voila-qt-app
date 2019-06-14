@@ -108,4 +108,4 @@ jobs:
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: voila_demo-windows
-      targetPath: dist\voila_demo
+      targetPath: dist\voila_demo.exe
