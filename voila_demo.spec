@@ -43,30 +43,49 @@ a = Analysis(['voila_demo.py'],
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 
-exe = EXE(pyz,
-          a.scripts,
-          [],
-          exclude_binaries=True,
-          name='voila_demo',
-          debug=False,
-          bootloader_ignore_signals=False,
-          strip=False,
-          upx=False,
-          console=True,
-          icon=icon)
+if sys.platform == 'darwin':
 
-coll = COLLECT(exe,
-               a.binaries,
-               a.zipfiles,
-               a.datas,
-               strip=False,
-               upx=False,
-               name='voila_demo')
+    exe = EXE(pyz,
+              a.scripts,
+              [],
+              exclude_binaries=True,
+              name='voila_demo',
+              debug=False,
+              bootloader_ignore_signals=False,
+              strip=False,
+              upx=False,
+              console=False,
+              icon=icon)
 
-app = BUNDLE(coll,
-             name='voila_demo.app',
-             icon=icon,
-             info_plist={
-             'NSHighResolutionCapable': 'True'
-             },
-             bundle_identifier='org.qt-project.Qt.QtWebEngineCore')
+    coll = COLLECT(exe,
+                   a.binaries,
+                   a.zipfiles,
+                   a.datas,
+                   strip=False,
+                   upx=False,
+                   name='voila_demo')
+
+    app = BUNDLE(coll,
+                 name='voila_demo.app',
+                 icon=icon,
+                 info_plist={
+                 'NSHighResolutionCapable': 'True'
+                 },
+                 bundle_identifier='org.qt-project.Qt.QtWebEngineCore')
+
+else:
+
+    exe = EXE(pyz,
+              a.scripts,
+              a.binaries,
+              a.zipfiles,
+              a.datas,
+              [],
+              exclude_binaries=False,
+              name='voila_demo',
+              debug=False,
+              bootloader_ignore_signals=False,
+              strip=False,
+              upx=False,
+              console=False,
+              icon=icon)
