@@ -58,9 +58,6 @@ jobs:
   - script: pyinstaller voila_demo.spec
     displayName: Building application
 
-  - script: python fix_osx.py dist/voila_demo.app
-    displayName: Fix application
-
   - script: rm -r dist/voila_demo
     displayName: Remove unused directory
 

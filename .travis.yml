@@ -20,7 +20,6 @@ install:
 
 script:
   - pyinstaller voila_demo.spec
-  - python fix_osx.py dist/voila_demo.app
   - rm -r dist/voila_demo
   - dist/voila_demo.app/Contents/MacOS/voila_demo --nonblocking
   - hdiutil create -volname "Voila Demo" -srcfolder dist -ov -format UDZO voila_demo.dmg
