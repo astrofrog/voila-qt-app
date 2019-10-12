@@ -35,9 +35,16 @@ from urllib.error import URLError, HTTPError
 
 from voila.app import main
 
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from PyQt5 import QtCore
+try:
+    # PyQt support
+    from PyQt5.QtWidgets import QApplication
+    from PyQt5.QtWebEngineWidgets import QWebEngineView
+    from PyQt5 import QtCore
+except:
+    # PySide support
+    from PySide2.QtWidgets import QApplication
+    from PySide2.QtWebEngineWidgets import QWebEngineView
+    from PySide2 import QtCore
 
 # The following module is a fake module that contains the notebook
 # to execute for now. We do this to make it easy to figure out the
